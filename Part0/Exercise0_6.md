@@ -25,6 +25,7 @@
 
         browser->>server: POST https://studies.cs.helsinki.fi/exampleapp/new_note_spa
         activate server
+        Note right of browser: The submit button triggers the spa.js file to submit the POST method to the server.
         server-->>browser: Renders the HTML document without the page reload "hello how are you?"
         deactivate server
 ```
