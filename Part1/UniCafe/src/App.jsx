@@ -4,11 +4,14 @@ const Button = ({ onClick, text }) => <button onClick={onClick}>{text}</button>
 
 const StatisticLine = (props) => {
     return (
-        <div>
-            <p>
-                {props.text} {props.value}
-            </p>
-        </div>
+        <tr>
+            <td>
+                {props.text}
+            </td>
+            <td>
+                {props.value}
+            </td>
+        </tr>
     )
 }
 
@@ -35,12 +38,16 @@ const Statistics = (props) => {
             <h1>
                 Statistics
             </h1>
-            <StatisticLine text="Good:" value={props.good} />
-            <StatisticLine text="Neutral:" value={props.neutral} />
-            <StatisticLine text="Bad:" value={props.bad} />
-            <StatisticLine text="Overall:" value={total} />
-            <StatisticLine text="Average:" value={average} />
-            <StatisticLine text="Positive:" value={positive + '%'} />
+            <table>
+                <tbody>
+                    <StatisticLine text="Good:" value={props.good} />
+                    <StatisticLine text="Neutral:" value={props.neutral} />
+                    <StatisticLine text="Bad:" value={props.bad} />
+                    <StatisticLine text="Overall:" value={total} />
+                    <StatisticLine text="Average:" value={average} />
+                    <StatisticLine text="Positive:" value={positive + '%'} />
+                </tbody>
+            </table>
         </div>
     )
 }
@@ -48,7 +55,7 @@ const Statistics = (props) => {
 const App = () => {
     const [good, setGood] = useState(0)
     const [neutral, setNeutral] = useState(0)
-    const[bad, setBad] = useState(0)
+    const [bad, setBad] = useState(0)
 
     const clickGood = () => {
         setGood(good + 1)
