@@ -21,13 +21,22 @@ const App = () => {
             </button>
             <h2>Statistics</h2>
             <p>
-                Good {good}
+                Good: {good}
             </p>
             <p>
-                Neutral  {neutral}
+                Neutral:  {neutral}
             </p>
             <p>
-                Bad {bad}
+                Bad: {bad}
+            </p>
+            <p>
+                Overall: {good + neutral + bad}
+            </p>
+            <p>
+                Average: {good + neutral + bad === 0 ? 0 : (good - bad) / (good + neutral + bad)}
+            </p>
+            <p>
+                Positive: {good + neutral + bad === 0 ? 0 : (good / (good + neutral + bad)) * 100} %
             </p>
         </div>
     )
