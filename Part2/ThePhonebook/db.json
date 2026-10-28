@@ -24,11 +24,6 @@
       "name": "Humpy McPlane",
       "number": "85-321456",
       "id": "AtwKtQMPRlE"
-    },
-    {
-      "name": "Hailo McUber",
-      "number": "93-654927",
-      "id": "i6llxROTS8Q"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"
