@@ -39,7 +39,7 @@ const App = () => {
     const [newNumber, setNewNumber] = useState('')
     const [searchName, setSearchName] = useState('')
 
-        const hook = () => {
+    const hook = () => {
         console.log('Effect')
         axios
             .get('http://localhost:3001/persons')
@@ -56,7 +56,6 @@ const App = () => {
         const nameObject = {
             name: newName,
             number: newNumber,
-            id: persons.length + 1,
         }
 
         if (persons.some(person => person.name === newName)) {
@@ -68,9 +67,13 @@ const App = () => {
             return
         }
 
-        setPersons(persons.concat(nameObject))
-        setNewName('')
-        setNewNumber('')
+        axios
+            .post('http://localhost:3001/persons', nameObject)
+            .then(response => {
+                setPersons(persons.concat(response.data))
+                setNewName('')
+                setNewNumber('')
+            })
     }
 
     const handleNameChange = (event) => {
