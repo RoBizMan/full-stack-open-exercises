@@ -1,49 +1,18 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
+import './index.css'
+import Filter from './components/Filter'
+import PersonForm from './components/PersonForm'
+import Persons from './components/Persons'
+import Notification from './components/Notification'
 import personService from './services/phonebook'
-
-const Filter = ({ searchName, handleSearchChange }) => {
-    return (
-        <div>
-            Filter shown with <input value={searchName} onChange={handleSearchChange} />
-        </div>
-    )
-}
-
-const PersonForm = ({ addName, newName, handleNameChange, newNumber, handleNumberChange }) => {
-    return (
-        <form onSubmit={addName}>
-            <div>
-                Name: <input value={newName} onChange={handleNameChange} />
-            </div>
-            <div>
-                Number: <input value={newNumber} onChange={handleNumberChange} />
-            </div>
-            <div>
-                <button type="submit">Add</button>
-            </div>
-        </form>
-    )
-}
-
-const Persons = ({ personsToShow, removeName }) => {
-    return (
-        <ul>
-            {personsToShow.map(person => (<li key={person.id}>
-                {person.name} {person.number} {' '} <button onClick={() => {
-                    if (window.confirm(`Are you sure you want to delete ${person.name}?`)) {
-                        removeName(person.id)
-                    }
-                }}>Delete</button></li>))}
-        </ul>
-    )
-}
 
 const App = () => {
     const [persons, setPersons] = useState([])
     const [newName, setNewName] = useState('')
     const [newNumber, setNewNumber] = useState('')
     const [searchName, setSearchName] = useState('')
+    const [messageStatus, setMessage] = useState(null)
 
     const hook = () => {
         console.log('Effect')
@@ -72,6 +41,10 @@ const App = () => {
                         setPersons(persons.map(person => person.id === nameExists.id ? returnedPerson : person))
                         setNewName('')
                         setNewNumber('')
+                        setMessage(`Updated ${returnedPerson.name}'s number`)
+                        setTimeout(() => {
+                            setMessage(null)
+                        }, 5000)
                     })
             }
             return
@@ -93,6 +66,10 @@ const App = () => {
                 setPersons(persons.concat(returnedPerson))
                 setNewName('')
                 setNewNumber('')
+                setMessage(`Added ${returnedPerson.name}`)
+                setTimeout(() => {
+                    setMessage(null)
+                }, 5000)
             })
     }
 
@@ -101,6 +78,10 @@ const App = () => {
             .removePerson(id)
             .then(() => {
                 setPersons(persons.filter(person => person.id !== id))
+                setMessage(`Removed ${persons.find(person => person.id === id)?.name}`)
+                setTimeout(() => {
+                    setMessage(null)
+                }, 5000)
             })
     }
 
@@ -123,6 +104,7 @@ const App = () => {
     return (
         <div>
             <h2>Phonebook</h2>
+            <Notification message={messageStatus} />
             <Filter searchName={searchName} handleSearchChange={handleSearchChange} />
             <h3>Add a new person:</h3>
             <PersonForm addName={addName} newName={newName} handleNameChange={handleNameChange} newNumber={newNumber} handleNumberChange={handleNumberChange} />
