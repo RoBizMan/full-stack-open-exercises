@@ -32,7 +32,9 @@ const Persons = ({ personsToShow, removeName }) => {
             {personsToShow.map(person => (<li key={person.id}>
                 {person.name} {person.number} {' '} <button onClick={() => {
                     if (window.confirm(`Are you sure you want to delete ${person.name}?`)) {
-                        removeName(person.id) } }}>Delete</button></li>))}
+                        removeName(person.id)
+                    }
+                }}>Delete</button></li>))}
         </ul>
     )
 }
@@ -57,18 +59,32 @@ const App = () => {
 
     const addName = (event) => {
         event.preventDefault()
+
+        const nameExists = persons.find(person => person.name === newName)
+
+        if (nameExists) {
+            if (window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`)) {
+                const changedPerson = { ...nameExists, number: newNumber }
+
+                personService
+                    .updatePerson(nameExists.id, changedPerson)
+                    .then(returnedPerson => {
+                        setPersons(persons.map(person => person.id === nameExists.id ? returnedPerson : person))
+                        setNewName('')
+                        setNewNumber('')
+                    })
+            }
+            return
+        }
+
+        if (persons.some(person => person.number === newNumber)) {
+            alert(`${newNumber} is already added to phonebook`)
+            return
+        }
+
         const nameObject = {
             name: newName,
             number: newNumber,
-        }
-
-        if (persons.some(person => person.name === newName)) {
-            alert(`${newName} is already added to phonebook`)
-            return
-        }
-        else if (persons.some(person => person.number === newNumber)) {
-            alert(`${newNumber} is already added to phonebook`)
-            return
         }
 
         personService
