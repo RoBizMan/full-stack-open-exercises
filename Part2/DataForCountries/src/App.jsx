@@ -20,6 +20,10 @@ const App = () => {
         setSearchQuery(event.target.value)
     }
 
+    const handleShow = (countryName) => {
+        setSearchQuery(countryName)
+    }
+
     const countryToShow = searchQuery === ''
         ? countries
         : countries.filter(country => country.name.common.toLowerCase().includes(searchQuery.toLowerCase()))
@@ -27,7 +31,7 @@ const App = () => {
     return (
         <div>
             <Search searchQuery={searchQuery} handleSearchChange={handleSearchChange} />
-            <Results countryToShow={countryToShow} />
+            <Results countryToShow={countryToShow} handleShow={handleShow} />
         </div>
     )
 }
